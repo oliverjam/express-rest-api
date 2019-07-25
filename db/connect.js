@@ -12,7 +12,8 @@ try {
   db = require("./db.json");
 } catch (error) {
   const defaultData = { todos: [] };
-  save(defaultData);
+  db = defaultData;
+  save(db);
 }
 
 function get(key, find) {
@@ -54,9 +55,13 @@ function remove(key, find) {
         const error = new Error(`${key} not found`);
         return reject(error);
       }
-      db[key] = array.filter(find);
+      const value = array.find(find);
+      if (!value) {
+        return reject(new Error(`No match found in ${key}`));
+      }
+      db[key] = array.filter(x => x.id !== value.id);
       save(db);
-      return resolve();
+      return resolve(value);
     } catch (error) {
       reject(error);
     }

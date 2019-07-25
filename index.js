@@ -17,6 +17,7 @@ app.get("/todos/", todos.get);
 app.get("/todos/:id", todos.get);
 app.post("/todos/", todos.post);
 app.put("/todos/:id", todos.put);
+app.patch("/todos/:id", todos.patch);
 app.delete("/todos/:id", todos.del);
 
 app.use(errors);

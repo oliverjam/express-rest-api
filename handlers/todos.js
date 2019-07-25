@@ -1,7 +1,7 @@
 const todos = require("../model/todos");
 const { NotFound } = require("../errors");
 
-module.exports = { get, post, put, del };
+module.exports = { get, post, put, patch, del };
 
 function get(req, res, next) {
   todos
@@ -37,6 +37,18 @@ function put(req, res, next) {
     })
     .catch(error => {
       error.status = 500;
+      next(error);
+    });
+}
+
+function patch(req, res, next) {
+  const newTodo = req.body;
+  todos
+    .patch(req.params.id, newTodo)
+    .then(todo => {
+      res.json(todo);
+    })
+    .catch(error => {
       next(error);
     });
 }
