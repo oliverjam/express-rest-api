@@ -39,7 +39,7 @@ function push(key, value) {
       }
       array.push(value);
       save(db);
-      return resolve();
+      return resolve(value);
     } catch (error) {
       return reject(error);
     }
