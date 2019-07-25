@@ -46,4 +46,21 @@ function push(key, value) {
   });
 }
 
-module.exports = { get, push };
+function remove(key, find) {
+  return new Promise((resolve, reject) => {
+    try {
+      const array = db[key];
+      if (!array) {
+        const error = new Error(`${key} not found`);
+        return reject(error);
+      }
+      db[key] = array.filter(find);
+      save(db);
+      return resolve();
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+module.exports = { get, push, remove };

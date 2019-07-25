@@ -1,6 +1,6 @@
 const todos = require("../model/todos");
 
-module.exports = { get, post, put };
+module.exports = { get, post, put, del };
 
 function get(req, res, next) {
   todos
@@ -37,6 +37,18 @@ function put(req, res, next) {
     })
     .catch(error => {
       error.status = 500;
+      next(error);
+    });
+}
+
+function del(req, res, next) {
+  todos
+    .del(req.params.id)
+    .then(() => {
+      res.status(204).send();
+    })
+    .catch(error => {
+      error.status = 404;
       next(error);
     });
 }
