@@ -1,0 +1,21 @@
+{
+  "name": "express-rest-api",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "Oliver Phillips <op@oliverjam.es> (https://oliverjam.es/)",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "nodemon": "^1.18.10"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "uuid": "^3.3.2"
+  }
+}
