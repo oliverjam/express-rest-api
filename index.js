@@ -13,6 +13,7 @@ app.use(logger);
 
 app.get("/", (req, res) => res.json({ message: "Hello world" }));
 
+app.get("/todos/", todos.get);
 app.get("/todos/:id", todos.get);
 app.post("/todos/", todos.post);
 

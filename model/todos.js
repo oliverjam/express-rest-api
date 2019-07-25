@@ -4,7 +4,8 @@ const db = require("../db/connect");
 module.exports = { get, post };
 
 function get(id) {
-  return db.get("todos", todo => id === todo.id);
+  const find = id ? todo => id === todo.id : null;
+  return db.get("todos", find);
 }
 
 function post(newTodo) {
