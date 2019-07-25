@@ -2,9 +2,13 @@ const todos = require("../model/todos");
 
 module.exports = { get, post };
 
-function get(req, res) {
-  const todo = todos.get(+req.params.id, 10);
-  res.json(todo);
+function get(req, res, next) {
+  todos
+    .get(req.params.id)
+    .then(todo => {
+      res.json(todo);
+    })
+    .catch(next);
 }
 
 function post(req, res, next) {
