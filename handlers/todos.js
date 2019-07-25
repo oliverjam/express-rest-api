@@ -1,4 +1,5 @@
 const todos = require("../model/todos");
+const { NotFound } = require("../errors");
 
 module.exports = { get, post, put, del };
 
@@ -9,8 +10,7 @@ function get(req, res, next) {
       res.json(todo);
     })
     .catch(error => {
-      error.status = 404;
-      next(error);
+      next(new NotFound(error));
     });
 }
 
