@@ -1,71 +1,11 @@
-const { writeFileSync } = require("fs");
+const low = require("lowdb");
+const FileAsync = require("lowdb/adapters/FileAsync");
+const Memory = require("lowdb/adapters/Memory");
 
-let db;
+const db = low(
+  process.env.NODE_ENV === "test"
+    ? new Memory()
+    : new FileAsync("./db/db.json", { defaultValue: { todos: [] } })
+);
 
-function save(data) {
-  writeFileSync("./db/db.json", JSON.stringify(data));
-}
-
-// create a new database json if there isn't one
-// for a fresh install this won't exist as db is gitignored
-try {
-  db = require("./db.json");
-} catch (error) {
-  const defaultData = { todos: [] };
-  db = defaultData;
-  save(db);
-}
-
-function get(key, find) {
-  return new Promise((resolve, reject) => {
-    const array = db[key];
-    if (!array) {
-      return reject(new Error(`${key} not found`));
-    }
-    const value = find ? array.find(find) : array;
-    if (!value) {
-      return reject(new Error(`No match found in ${key}`));
-    }
-    resolve(value);
-  });
-}
-
-function push(key, value) {
-  return new Promise((resolve, reject) => {
-    try {
-      const array = db[key];
-      if (!array) {
-        const error = new Error(`${key} not found`);
-        return reject(error);
-      }
-      array.push(value);
-      save(db);
-      return resolve(value);
-    } catch (error) {
-      return reject(error);
-    }
-  });
-}
-
-function remove(key, find) {
-  return new Promise((resolve, reject) => {
-    try {
-      const array = db[key];
-      if (!array) {
-        const error = new Error(`${key} not found`);
-        return reject(error);
-      }
-      const value = array.find(find);
-      if (!value) {
-        return reject(new Error(`No match found in ${key}`));
-      }
-      db[key] = array.filter(x => x.id !== value.id);
-      save(db);
-      return resolve(value);
-    } catch (error) {
-      reject(error);
-    }
-  });
-}
-
-module.exports = { get, push, remove };
+module.exports = db;

@@ -18,8 +18,8 @@ function post(req, res, next) {
   const newTodo = req.body;
   todos
     .post(newTodo)
-    .then(todo => {
-      res.location(`http://localhost:3000/todos/${todo.id}`);
+    .then(id => {
+      res.location(`http://localhost:3000/todos/${id}`);
       res.status(201).send();
     })
     .catch(error => {
@@ -33,6 +33,7 @@ function put(req, res, next) {
   todos
     .put(req.params.id, newTodo)
     .then(todo => {
+      console.log(todo);
       res.json(todo);
     })
     .catch(error => {
